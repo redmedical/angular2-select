@@ -25,4 +25,8 @@ export class Option {
     get label(): string {
         return this.wrappedOption.label;
     }
+
+    get labelMenu(): string {
+        return this.wrappedOption.labelMenu ? this.wrappedOption.labelMenu : this.wrappedOption.label;
+    }
 }
