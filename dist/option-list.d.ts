@@ -1,8 +1,10 @@
 import { Option } from './option';
+import { IOption } from './option.interface';
 export declare class OptionList {
     private _options;
     private _highlightedOption;
-    constructor(options: Array<any>);
+    private _hasShown;
+    constructor(options: Array<IOption>);
     /** Options. **/
     readonly options: Array<Option>;
     getOptionsByValue(value: string): Array<Option>;
@@ -15,8 +17,8 @@ export declare class OptionList {
     clearSelection(): void;
     /** Filter. **/
     readonly filtered: Array<Option>;
-    filter(term: string): void;
-    resetFilter(): void;
+    filter(term: string): boolean;
+    private resetFilter();
     /** Highlight. **/
     readonly highlightedOption: Option;
     highlight(): void;
@@ -27,7 +29,7 @@ export declare class OptionList {
     private getHighlightedIndexFromList(options);
     getHighlightedIndex(): number;
     /** Util. **/
-    hasShown(): boolean;
+    readonly hasShown: boolean;
     hasSelected(): boolean;
     hasShownSelected(): boolean;
     private getFirstShown();

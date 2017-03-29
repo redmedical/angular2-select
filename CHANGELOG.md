@@ -1,8 +1,40 @@
 # Changelog
 
+<a name="1.0.0-beta.5"></a>
+## [1.0.0-beta.5](https://github.com/basvandenberg/ng-select/compare/1.0.0-beta.4...1.0.0-beta.5) (2017-03-29)
+
+Fixes for use with angular4.
+
+### Bug fixes
+- Make view properties public, fix for angular4 (#144, #145).
+- Prevent changed after check error in angular4 (#142, #143).
+
+
+
+<a name="1.0.0-beta.4"></a>
+## [1.0.0-beta.4](https://github.com/basvandenberg/ng-select/compare/1.0.0-beta.3...1.0.0-beta.4) (2017-03-12)
+
+### Features
+
+- Add `filterPlaceholder` input to set the filter placeholder (#121, #124).
+- Add `label` input to show persistent label above select container (#106).
+
+### Bug fixes
+
+- Re-enable AoT compilation (#113).
+
+### Improvements
+
+- Enable import of SelectComponent and IOption interface (#118).
+- Selected and deselected events return original option object.
+- Disable autocomplete for filter inputs (#126).
+- The NoOptionsFound output event returns filter term instead of null (#109).
+- Setup unit testing.
+
+
 
 <a name="1.0.0-beta.3"></a>
-## [1.0.0-beta.3](https://github.com/basvandenberg/angular2-select/compare/1.0.0-beta.2...1.0.0-beta.3) (2017-02-11)
+## [1.0.0-beta.3](https://github.com/basvandenberg/ng-select/compare/1.0.0-beta.2...1.0.0-beta.3) (2017-02-11)
 
 ### Breaking changes
 
@@ -33,7 +65,7 @@
 
 
 <a name="1.0.0-beta.2"></a>
-## [1.0.0-beta.2](https://github.com/basvandenberg/angular2-select/compare/1.0.0-beta.1...1.0.0-beta.2) (2017-01-12)
+## [1.0.0-beta.2](https://github.com/basvandenberg/ng-select/compare/1.0.0-beta.1...1.0.0-beta.2) (2017-01-12)
 
 ### Bug fixes
 
@@ -42,7 +74,7 @@
 
 
 <a name="1.0.0-beta.1"></a>
-## [1.0.0-beta.1](https://github.com/basvandenberg/angular2-select/compare/1.0.0-beta.0...1.0.0-beta.1) (2017-01-08)
+## [1.0.0-beta.1](https://github.com/basvandenberg/ng-select/compare/1.0.0-beta.0...1.0.0-beta.1) (2017-01-08)
 
 ### Bug fixes
 
@@ -51,7 +83,7 @@
 
 
 <a name="1.0.0-beta.0"></a>
-## [1.0.0-beta.0](https://github.com/basvandenberg/angular2-select/compare/1.0.0-alpha.12...1.0.0-beta.0) (2017-01-07)
+## [1.0.0-beta.0](https://github.com/basvandenberg/ng-select/compare/1.0.0-alpha.12...1.0.0-beta.0) (2017-01-07)
 
 ### Breaking changes
 
@@ -83,7 +115,7 @@
 
 
 <a name="1.0.0-alpha.12"></a>
-## [1.0.0-alpha.12](https://github.com/basvandenberg/angular2-select/compare/1.0.0-alpha.11...1.0.0-alpha.12)
+## [1.0.0-alpha.12](https://github.com/basvandenberg/ng-select/compare/1.0.0-alpha.11...1.0.0-alpha.12)
 
 ### Breaking changes
 
@@ -97,29 +129,29 @@
 
 
 <a name="1.0.0-alpha.11"></a>
-## [1.0.0-alpha.11](https://github.com/basvandenberg/angular2-select/compare/1.0.0-alpha.10...1.0.0-alpha.11)
+## [1.0.0-alpha.11](https://github.com/basvandenberg/ng-select/compare/1.0.0-alpha.10...1.0.0-alpha.11)
 
 - Update to Angular 2.1.0.
 
 
 
 <a name="1.0.0-alpha.10"></a>
-## [1.0.0-alpha.10](https://github.com/basvandenberg/angular2-select/compare/1.0.0-alpha.9...1.0.0-alpha.10)
+## [1.0.0-alpha.10](https://github.com/basvandenberg/ng-select/compare/1.0.0-alpha.9...1.0.0-alpha.10)
 
 ### Bug fixes
 
-- Fix errors in package.json and tsconfig.json ([#18] (https://github.com/basvandenberg/angular2-select/issues/18)).
-- Fix empty value multi-select, so that required validator works ([#21] (https://github.com/basvandenberg/angular2-select/issues/21)).
-- Fix setting value of single select ([#19] (https://github.com/basvandenberg/angular2-select/issues/19)).
+- Fix errors in package.json and tsconfig.json ([#18] (https://github.com/basvandenberg/ng-select/issues/18)).
+- Fix empty value multi-select, so that required validator works ([#21] (https://github.com/basvandenberg/ng-select/issues/21)).
+- Fix setting value of single select ([#19] (https://github.com/basvandenberg/ng-select/issues/19)).
 
 ### Improvements
 
-- Set ViewEncapsulation to None to enable style override ([#16] (https://github.com/basvandenberg/angular2-select/issues/16)). 
+- Set ViewEncapsulation to None to enable style override ([#16] (https://github.com/basvandenberg/ng-select/issues/16)). 
 
 
 
 <a name="1.0.0-alpha.9"></a>
-## [1.0.0-alpha.9](https://github.com/basvandenberg/angular2-select/compare/1.0.0-alpha.8...1.0.0-alpha.9) (2016-10-05)
+## [1.0.0-alpha.9](https://github.com/basvandenberg/ng-select/compare/1.0.0-alpha.8...1.0.0-alpha.9) (2016-10-05)
 
 ### Bug fixes
 
@@ -131,16 +163,16 @@
 
 
 <a name="1.0.0-alpha.8"></a>
-## [1.0.0-alpha.8](https://github.com/basvandenberg/angular2-select/compare/1.0.0-alpha.7...1.0.0-alpha.8) (2016-10-01)
+## [1.0.0-alpha.8](https://github.com/basvandenberg/ng-select/compare/1.0.0-alpha.7...1.0.0-alpha.8) (2016-10-01)
 
 ### Features
 
-- Added ngc/AoT support ([#11] (https://github.com/basvandenberg/angular2-select/pull/11)).
+- Added ngc/AoT support ([#11] (https://github.com/basvandenberg/ng-select/pull/11)).
 
 ### Bug fixes
 
-- Fix clear selection using form control's setValue function ([#5] (https://github.com/basvandenberg/angular2-select/issues/5)).
-- Update current selection when option list is changed ([#6] (https://github.com/basvandenberg/angular2-select/issues/6)).
-- Prevent javascript error when list of options is empty ([#7] (https://github.com/basvandenberg/angular2-select/issues/7)).
-- Prevent javascript error when clicking the 'No results found' option ([#8] (https://github.com/basvandenberg/angular2-select/issues/8)).
+- Fix clear selection using form control's setValue function ([#5] (https://github.com/basvandenberg/ng-select/issues/5)).
+- Update current selection when option list is changed ([#6] (https://github.com/basvandenberg/ng-select/issues/6)).
+- Prevent javascript error when list of options is empty ([#7] (https://github.com/basvandenberg/ng-select/issues/7)).
+- Prevent javascript error when clicking the 'No results found' option ([#8] (https://github.com/basvandenberg/ng-select/issues/8)).
 

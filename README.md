@@ -1,17 +1,32 @@
-# Angular 2 select component
-[![npm version](https://badge.fury.io/js/angular2-select.svg)](https://badge.fury.io/js/angular2-select)
-[![Build Status](https://travis-ci.org/basvandenberg/angular2-select.svg?branch=master)](https://travis-ci.org/basvandenberg/angular2-select)
+# Select component for angular
+[![npm version](https://badge.fury.io/js/ng-select.svg)](https://badge.fury.io/js/ng-select)
+[![Build Status](https://travis-ci.org/basvandenberg/ng-select.svg?branch=master)](https://travis-ci.org/basvandenberg/ng-select)
 
-A native select component for angular 2, based on the select2 JQuery plugin.
+A select component for angular, based on the select2 JQuery plugin. See the
+[ng-select] page for example uses or try it with this [plunker].
 
-See the [angular2-select] page for example uses or try it with this [plunker].
+*Disclaimer*: This is a beta version, not yet intended for production release.
 
-The beta version is here! With new features and bug fixes. See the [changelog]
-for more details.
+-------------------------------------------------------------------------------
+***IMPORTANT NOTICE***
 
-*Disclaimer*: The beta version is a complete rewrite of the alpha version, so
-new bugs are to be expected. Please do not yet rely on this beta version for
-production releases.
+*The angular [press kit](https://angular.io/presskit.html) states that 3rd
+party projects should avoid the use of version numbers in their names. The name
+of this project is therefore changed from angular2-select to ng-select (since
+angular-select was not available on npm anymore).*
+
+*The npm package `angular2-select` will be deprecated, the upcoming beta.4
+version will only be available as `ng-select`. Therefore, for upgrading to
+beta.4 (which is not yet released) you will need to reinstall the npm package:*
+```
+npm uninstall --save angular2-select
+npm install --save ng-select
+```
+*And your module import needs to be changed to:*
+```
+import {SelectModule} from 'ng-select';
+```
+-------------------------------------------------------------------------------
 
 - [Getting started](#getting-started)
 - [Input properties](#input-properties)
@@ -26,12 +41,11 @@ production releases.
 
 For npm users:
 ```
-npm install --save angular2-select
+npm install --save ng-select
 ```
-
 For yarn users:
 ```
-yarn add angular2-select
+yarn add ng-select
 ```
 
 ### Configuration
@@ -44,7 +58,7 @@ After installation, no additional configuration is needed. Import the
 ```typescript
 import {NgModule} from '@angular/core';
 import {BrowserModule} from '@angular/platform-browser';
-import {SelectModule} from 'angular2-select';
+import {SelectModule} from 'ng-select';
 
 import {AppComponent} from './app.component';
 
@@ -65,17 +79,15 @@ export class AppModule {}
 
 #### Systemjs
 
-*Not yet tested for the beta version.*
-
-In `systemjs.config.js` add `angular2-select` to map and package:
+In `systemjs.config.js` add `ng-select` to map and package:
 
 ```javascript
 var map = {
-	'angular2-select': 'node_modules/angular2-select'
+	'ng-select': 'node_modules/ng-select'
 };
 
 var packages = {
-	'angular2-select': {
+	'ng-select': {
 		main: 'index.js',
 		defaultExtension: 'js'
 	}
@@ -86,29 +98,31 @@ var packages = {
 
 | Name               | Type              | Default               | Description                                                                                |
 | ------------------ | ----------------- | --------------------- | ------------------------------------------------------------------------------------------ |
-| options            | `Array<option>`\* |                       | List of select option.                                                                     |
+| options            | `Array<IOption>`\* |                      | List of select option.                                                                     |
+| multiple           | `boolean`         | `false`               | If set to true, the select component is multi-select, otherwise single select.             |
 | allowClear         | `boolean`         | `false`               | Only applies to single select. If set to true, a clickable clear selection cross is shown. |
 | disabled           | `boolean`         | `false`               | If set to true, the select component is disabled.                                          |
 | highlightColor     | `string`          | `#2196f3`             | Background color of highlighted option.                                                    |
 | highlightTextColor | `string`          | `#fff`                | Text color of highlighted option.                                                          |
-| multiple           | `boolean`         | `false`               | If set to true, the select component is multi-select, otherwise single select.             |
+| label              | `string`          | ''                    | Label above select container. |
 | noFilter           | `number`          | `0`                   | Filter is hidden if the number of options is less than the given number.                   |
 | notFoundMsg        | `string`          | `"No results found"`  | The message shown if no options are found for the current filter input value.              |
 | placeholder        | `string`          | `""`                  | Placeholder text that is shown if no options are selected.
+| filterPlaceholder  | `string`          | `""`                  | Placeholder text that is shown on the filter input (**single select only**).
 
-\* `option` is an object with value and label (`{value: string, label: string}`)
+\* Object that implements the IOption interface (`{value: string, label: string}`)
 
 ## Output events
 
-| Name          | Value                      | Description                                                              |
-| ------------- | -------------------------- | ------------------------------------------------------------------------ |
-| opened        | `null`                     | If the select drop down is opened.                                       |
-| closed        | `null`                     | If the select drop down is closed.                                       |
-| selected      | `option`\*                 | If an options is selected, returning the selected option.                |
-| deselected    | `option`\* or `[option]`\* | If one or more options are deselected, returning the selected option(s). |
-| noOptionsFound| `null`                     | When the filter result changes to 'no results found'.                    |
+| Name          | Value                       | Description                                                              |
+| ------------- | --------------------------- | ------------------------------------------------------------------------ |
+| opened        | `null`                      | If the select drop down is opened.                                       |
+| closed        | `null`                      | If the select drop down is closed.                                       |
+| selected      | `IOption`\*                 | Returns selected option object.                                          |
+| deselected    | `IOption`\* or `[IOption]`\*| Returns deselected option object(s).                                     |
+| noOptionsFound| `string`                    | Returns search term if filter does not return any results.               |
 
-\* `option` is an object with value and label (`{value: string, label: string}`)
+\* Object that implements the IOption interface (`{value: string, label: string}`)
 
 ## Methods
 
@@ -121,16 +135,21 @@ var packages = {
 
 ## Limitations
 
+This component has limitations, which will be handled in future versions.
+Currently the goal is to work towards a stable 1.0 release version.
+
 ### Scalability
 
-For now, this component is not suitable for large numbers of options. If the
+The component is currently not suitable for large numbers of options. If the
 dropdown is opened, all options are added to the DOM, which will cause browser
 performance issues for large numbers of options. Therefore, if you have more
 that a few hundred options, then you will be better of with another solution.
 
-### Drop down positioning
+### Custom option view (using an option template)
 
-TODO
+In version 1.0 it will only be possible to define an option label that will be
+shown in the select dropdown. Customizing the option's view (adding an icon for
+example) is not possible. Also grouping of options is not supported.
 
 ## Develop
 
@@ -142,6 +161,6 @@ yarn install
 gulp build
 ```
 
-[angular2-select]: https://basvandenberg.github.io/angular2-select
-[plunker]: https://plnkr.co/edit/JcG8uO9nIfSGMEKdLf0Y?p=preview
-[changelog]: https://github.com/basvandenberg/angular2-select/releases
+[ng-select]: https://basvandenberg.github.io/ng-select
+[plunker]: https://plnkr.co/edit/vxwV6zxEwZGVUVR5V6tg?p=preview
+[changelog]: https://github.com/basvandenberg/ng-select/releases

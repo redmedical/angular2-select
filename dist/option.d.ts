@@ -1,18 +1,12 @@
+import { IOption } from './option.interface';
 export declare class Option {
-    value: string;
-    label: string;
-    labelMenu: string;
+    wrappedOption: IOption;
     disabled: boolean;
     highlighted: boolean;
     selected: boolean;
     shown: boolean;
-    constructor(value: string, label: string, labelMenu?: string);
-    show(): void;
-    hide(): void;
-    disable(): void;
-    enable(): void;
-    undecoratedCopy(): {
-        label: string;
-        value: string;
-    };
+    constructor(option: IOption);
+    readonly value: string;
+    readonly label: string;
+    readonly labelMenu: string;
 }

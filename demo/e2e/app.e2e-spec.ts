@@ -1,10 +1,10 @@
-import { Angular2SelectDocsPage } from './app.po';
+import { Demo4Page } from './app.po';
 
-describe('angular2-select-docs App', function() {
-  let page: Angular2SelectDocsPage;
+describe('demo4 App', () => {
+  let page: Demo4Page;
 
   beforeEach(() => {
-    page = new Angular2SelectDocsPage();
+    page = new Demo4Page();
   });
 
   it('should display message saying app works', () => {

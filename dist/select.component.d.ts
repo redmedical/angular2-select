@@ -1,11 +1,11 @@
-import { AfterViewInit, OnChanges, OnInit, EventEmitter, ExistingProvider } from '@angular/core';
+import { OnChanges, OnInit, EventEmitter, ExistingProvider } from '@angular/core';
 import { ControlValueAccessor } from '@angular/forms';
 import { SelectDropdownComponent } from './select-dropdown.component';
+import { IOption } from './option.interface';
 import { Option } from './option';
-import { OptionList } from './option-list';
 export declare const SELECT_VALUE_ACCESSOR: ExistingProvider;
-export declare class SelectComponent implements AfterViewInit, ControlValueAccessor, OnChanges, OnInit {
-    options: Array<any>;
+export declare class SelectComponent implements ControlValueAccessor, OnChanges, OnInit {
+    options: Array<IOption>;
     allowClear: boolean;
     disabled: boolean;
     highlightColor: string;
@@ -14,33 +14,35 @@ export declare class SelectComponent implements AfterViewInit, ControlValueAcces
     noFilter: number;
     notFoundMsg: string;
     placeholder: string;
+    filterPlaceholder: string;
+    label: string;
     opened: EventEmitter<null>;
     closed: EventEmitter<null>;
-    selected: EventEmitter<any>;
-    deselected: EventEmitter<any>;
+    selected: EventEmitter<IOption>;
+    deselected: EventEmitter<IOption | IOption[]>;
+    noOptionsFound: EventEmitter<string>;
     selectionSpan: any;
     dropdown: SelectDropdownComponent;
     filterInput: any;
     private _value;
-    optionList: OptionList;
+    private optionList;
     hasSelected: boolean;
-    filterEnabled: boolean;
-    filterInputWidth: number;
     hasFocus: boolean;
-    isBelow: boolean;
-    isDisabled: boolean;
     isOpen: boolean;
-    placeholderView: string;
-    clearClicked: boolean;
-    selectContainerClicked: boolean;
-    width: number;
-    top: number;
-    left: number;
+    isBelow: boolean;
+    private filterEnabled;
+    private filterInputWidth;
+    private isDisabled;
+    private placeholderView;
+    private clearClicked;
+    private selectContainerClicked;
+    private width;
+    private top;
+    private left;
     private onChange;
     private onTouched;
     /** Event handlers. **/
     ngOnInit(): void;
-    ngAfterViewInit(): void;
     ngOnChanges(changes: any): void;
     onWindowClick(): void;
     onWindowResize(): void;
@@ -67,7 +69,7 @@ export declare class SelectComponent implements AfterViewInit, ControlValueAcces
     registerOnTouched(fn: () => void): void;
     setDisabledState(isDisabled: boolean): void;
     /** Value. **/
-    value: any;
+    value: string | string[];
     private valueChanged();
     /** Initialization. **/
     private updateOptionsList(firstTime);
@@ -93,7 +95,7 @@ export declare class SelectComponent implements AfterViewInit, ControlValueAcces
     /** View. **/
     focus(): void;
     blur(): void;
-    updateWidth(): void;
-    updatePosition(): void;
-    updateFilterWidth(): void;
+    private updateWidth();
+    private updatePosition();
+    private updateFilterWidth();
 }

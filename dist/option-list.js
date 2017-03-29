@@ -1,6 +1,7 @@
 "use strict";
-var option_1 = require('./option');
-var diacritics_1 = require('./diacritics');
+Object.defineProperty(exports, "__esModule", { value: true });
+var option_1 = require("./option");
+var diacritics_1 = require("./diacritics");
 var OptionList = (function () {
     function OptionList(options) {
         /* Consider using these for performance improvement. */
@@ -12,12 +13,13 @@ var OptionList = (function () {
             options = [];
         }
         this._options = options.map(function (option) {
-            var o = new option_1.Option(option.value, option.label, option.labelMenu);
+            var o = new option_1.Option(option);
             if (option.disabled) {
-                o.disable();
+                o.disabled = true;
             }
             return o;
         });
+        this._hasShown = this._options.length > 0;
         this.highlight();
     }
     Object.defineProperty(OptionList.prototype, "options", {
@@ -84,17 +86,24 @@ var OptionList = (function () {
         configurable: true
     });
     OptionList.prototype.filter = function (term) {
+        var anyShown = false;
         if (term.trim() === '') {
             this.resetFilter();
+            anyShown = this.options.length > 0;
         }
         else {
             this.options.forEach(function (option) {
                 var l = diacritics_1.Diacritics.strip(option.label).toUpperCase();
                 var t = diacritics_1.Diacritics.strip(term).toUpperCase();
                 option.shown = l.indexOf(t) > -1;
+                if (option.shown) {
+                    anyShown = true;
+                }
             });
         }
         this.highlight();
+        this._hasShown = anyShown;
+        return anyShown;
     };
     OptionList.prototype.resetFilter = function () {
         this.options.forEach(function (option) {
@@ -152,12 +161,14 @@ var OptionList = (function () {
     OptionList.prototype.getHighlightedIndex = function () {
         return this.getHighlightedIndexFromList(this.filtered);
     };
-    /** Util. **/
-    OptionList.prototype.hasShown = function () {
-        return this.options.some(function (option) {
-            return option.shown;
-        });
-    };
+    Object.defineProperty(OptionList.prototype, "hasShown", {
+        /** Util. **/
+        get: function () {
+            return this._hasShown;
+        },
+        enumerable: true,
+        configurable: true
+    });
     OptionList.prototype.hasSelected = function () {
         return this.options.some(function (option) {
             return option.selected;

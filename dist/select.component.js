@@ -1,9 +1,10 @@
 "use strict";
-var core_1 = require('@angular/core');
-var forms_1 = require('@angular/forms');
-var select_component_css_1 = require('./select.component.css');
-var select_component_html_1 = require('./select.component.html');
-var option_list_1 = require('./option-list');
+Object.defineProperty(exports, "__esModule", { value: true });
+var core_1 = require("@angular/core");
+var forms_1 = require("@angular/forms");
+var select_component_css_1 = require("./select.component.css");
+var select_component_html_1 = require("./select.component.html");
+var option_list_1 = require("./option-list");
 exports.SELECT_VALUE_ACCESSOR = {
     provide: forms_1.NG_VALUE_ACCESSOR,
     useExisting: core_1.forwardRef(function () { return SelectComponent; }),
@@ -13,26 +14,27 @@ var SelectComponent = (function () {
     function SelectComponent() {
         this.allowClear = false;
         this.disabled = false;
-        this.highlightColor = '#2196f3';
-        this.highlightTextColor = '#fff';
         this.multiple = false;
         this.noFilter = 0;
         this.notFoundMsg = 'No results found';
         this.placeholder = '';
+        this.filterPlaceholder = '';
+        this.label = '';
         this.opened = new core_1.EventEmitter();
         this.closed = new core_1.EventEmitter();
         this.selected = new core_1.EventEmitter();
         this.deselected = new core_1.EventEmitter();
+        this.noOptionsFound = new core_1.EventEmitter();
         this._value = [];
         // Selection state variables.
         this.hasSelected = false;
         // View state variables.
+        this.hasFocus = false;
+        this.isOpen = false;
+        this.isBelow = true;
         this.filterEnabled = true;
         this.filterInputWidth = 1;
-        this.hasFocus = false;
-        this.isBelow = true;
         this.isDisabled = false;
-        this.isOpen = false;
         this.placeholderView = '';
         this.clearClicked = false;
         this.selectContainerClicked = false;
@@ -53,9 +55,6 @@ var SelectComponent = (function () {
     // Angular lifecycle hooks.
     SelectComponent.prototype.ngOnInit = function () {
         this.placeholderView = this.placeholder;
-    };
-    SelectComponent.prototype.ngAfterViewInit = function () {
-        this.updateFilterWidth();
     };
     SelectComponent.prototype.ngOnChanges = function (changes) {
         if (changes.hasOwnProperty('options')) {
@@ -104,7 +103,10 @@ var SelectComponent = (function () {
         this.selectContainerClicked = true;
     };
     SelectComponent.prototype.onSingleFilterInput = function (term) {
-        this.optionList.filter(term);
+        var hasShown = this.optionList.filter(term);
+        if (!hasShown) {
+            this.noOptionsFound.emit(term);
+        }
     };
     SelectComponent.prototype.onSingleFilterKeydown = function (event) {
         this.handleSingleFilterKeydown(event);
@@ -117,7 +119,11 @@ var SelectComponent = (function () {
         }
         this.updateFilterWidth();
         setTimeout(function () {
-            _this.optionList.filter(event.target.value);
+            var term = event.target.value;
+            var hasShown = _this.optionList.filter(term);
+            if (!hasShown) {
+                _this.noOptionsFound.emit(term);
+            }
         });
     };
     SelectComponent.prototype.onMultipleFilterKeydown = function (event) {
@@ -167,12 +173,7 @@ var SelectComponent = (function () {
     Object.defineProperty(SelectComponent.prototype, "value", {
         /** Value. **/
         get: function () {
-            if (this._value.length === 0) {
-                return '';
-            }
-            else {
-                return this.multiple ? this._value : this._value[0];
-            }
+            return this.multiple ? this._value : this._value[0];
         },
         set: function (v) {
             if (typeof v === 'undefined' || v === null || v === '') {
@@ -244,7 +245,7 @@ var SelectComponent = (function () {
         if (!option.selected) {
             this.optionList.select(option, this.multiple);
             this.valueChanged();
-            this.selected.emit(option.undecoratedCopy());
+            this.selected.emit(option.wrappedOption);
         }
     };
     SelectComponent.prototype.deselectOption = function (option) {
@@ -252,10 +253,9 @@ var SelectComponent = (function () {
         if (option.selected) {
             this.optionList.deselect(option);
             this.valueChanged();
-            this.deselected.emit(option.undecoratedCopy());
+            this.deselected.emit(option.wrappedOption);
             setTimeout(function () {
                 if (_this.multiple) {
-                    // this.updateFilterWidth();
                     _this.updatePosition();
                     _this.optionList.highlight();
                     if (_this.isOpen) {
@@ -271,11 +271,11 @@ var SelectComponent = (function () {
             this.optionList.clearSelection();
             this.valueChanged();
             if (selection.length === 1) {
-                this.deselected.emit(selection[0].undecoratedCopy());
+                this.deselected.emit(selection[0].wrappedOption);
             }
             else {
                 this.deselected.emit(selection.map(function (option) {
-                    return option.undecoratedCopy();
+                    return option.wrappedOption;
                 }));
             }
         }
@@ -401,35 +401,38 @@ var SelectComponent = (function () {
                 1 + this.placeholderView.length * 10 : 1 + value.length * 10;
         }
     };
-    SelectComponent.decorators = [
-        { type: core_1.Component, args: [{
-                    selector: 'ng-select',
-                    template: select_component_html_1.TEMPLATE,
-                    styles: [select_component_css_1.STYLE],
-                    providers: [exports.SELECT_VALUE_ACCESSOR],
-                    encapsulation: core_1.ViewEncapsulation.None
-                },] },
-    ];
-    /** @nocollapse */
-    SelectComponent.ctorParameters = function () { return []; };
-    SelectComponent.propDecorators = {
-        'options': [{ type: core_1.Input },],
-        'allowClear': [{ type: core_1.Input },],
-        'disabled': [{ type: core_1.Input },],
-        'highlightColor': [{ type: core_1.Input },],
-        'highlightTextColor': [{ type: core_1.Input },],
-        'multiple': [{ type: core_1.Input },],
-        'noFilter': [{ type: core_1.Input },],
-        'notFoundMsg': [{ type: core_1.Input },],
-        'placeholder': [{ type: core_1.Input },],
-        'opened': [{ type: core_1.Output },],
-        'closed': [{ type: core_1.Output },],
-        'selected': [{ type: core_1.Output },],
-        'deselected': [{ type: core_1.Output },],
-        'selectionSpan': [{ type: core_1.ViewChild, args: ['selection',] },],
-        'dropdown': [{ type: core_1.ViewChild, args: ['dropdown',] },],
-        'filterInput': [{ type: core_1.ViewChild, args: ['filterInput',] },],
-    };
     return SelectComponent;
 }());
+SelectComponent.decorators = [
+    { type: core_1.Component, args: [{
+                selector: 'ng-select',
+                template: select_component_html_1.TEMPLATE,
+                styles: [select_component_css_1.STYLE],
+                providers: [exports.SELECT_VALUE_ACCESSOR],
+                encapsulation: core_1.ViewEncapsulation.None
+            },] },
+];
+/** @nocollapse */
+SelectComponent.ctorParameters = function () { return []; };
+SelectComponent.propDecorators = {
+    'options': [{ type: core_1.Input },],
+    'allowClear': [{ type: core_1.Input },],
+    'disabled': [{ type: core_1.Input },],
+    'highlightColor': [{ type: core_1.Input },],
+    'highlightTextColor': [{ type: core_1.Input },],
+    'multiple': [{ type: core_1.Input },],
+    'noFilter': [{ type: core_1.Input },],
+    'notFoundMsg': [{ type: core_1.Input },],
+    'placeholder': [{ type: core_1.Input },],
+    'filterPlaceholder': [{ type: core_1.Input },],
+    'label': [{ type: core_1.Input },],
+    'opened': [{ type: core_1.Output },],
+    'closed': [{ type: core_1.Output },],
+    'selected': [{ type: core_1.Output },],
+    'deselected': [{ type: core_1.Output },],
+    'noOptionsFound': [{ type: core_1.Output },],
+    'selectionSpan': [{ type: core_1.ViewChild, args: ['selection',] },],
+    'dropdown': [{ type: core_1.ViewChild, args: ['dropdown',] },],
+    'filterInput': [{ type: core_1.ViewChild, args: ['filterInput',] },],
+};
 exports.SelectComponent = SelectComponent;
