@@ -242,7 +242,7 @@ var SelectComponent = (function () {
     };
     /** Select. **/
     SelectComponent.prototype.selectOption = function (option) {
-        if (!option.selected) {
+        if (!option.selected && !option.disabled) {
             this.optionList.select(option, this.multiple);
             this.valueChanged();
             this.selected.emit(option.wrappedOption);
